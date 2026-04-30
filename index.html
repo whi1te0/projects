@@ -4,1292 +4,383 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Комп'ютер майбутнього</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --cyan: #00f5ff;
-    --electric: #0affed;
-    --deep: #00060f;
-    --mid: #000d1a;
-    --card: #010e1f;
-    --accent: #ff6b35;
-    --gold: #ffd700;
-    --text: #c8e8ff;
-    --muted: #5a8aaa;
-  }
+:root {
+  --bg: #0f0f10;
+  --bg2: #1a1a1d;
+  --white: #1e1e22;
 
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  --ink: #f5f5f5;   /* головний текст (БІЛИЙ) */
+  --ink2: #c9c9c9;
+  --ink3: #8a8a8a;
 
-  html { scroll-behavior: smooth; }
+  --blue: #1a5cff;
+  --blue-soft: #1a2238;
 
-  body {
-    background: var(--deep);
-    color: var(--text);
-    font-family: 'Exo 2', sans-serif;
-    overflow-x: hidden;
-    cursor: none;
-  }
+  --orange: #ff5c2a;
+  --orange-soft: #2a1a16;
 
-  /* Starfield */
-  .stars {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-  }
-  .star {
-    position: absolute;
-    background: #fff;
-    border-radius: 50%;
-    animation: twinkle var(--dur, 3s) ease-in-out infinite;
-    animation-delay: var(--delay, 0s);
-    opacity: 0;
-  }
-  @keyframes twinkle {
-    0%, 100% { opacity: 0; transform: scale(0.5); }
-    50% { opacity: var(--bright, 0.7); transform: scale(1); }
-  }
+  --green: #00b37a;
+  --green-soft: #142a22;
 
-  /* Grid overlay */
-  .grid-overlay {
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
-    pointer-events: none;
-    z-index: 1;
-  }
+  --border: #2a2a2e;
+  --radius: 12px;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: 'Space Grotesk', sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
 
-  /* Scanline */
-  .scanline {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 2;
-    background: repeating-linear-gradient(
-      transparent,
-      transparent 3px,
-      rgba(0,0,0,0.12) 3px,
-      rgba(0,0,0,0.12) 4px
-    );
-  }
+nav { position: sticky; top: 0; z-index: 100 ; backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 0 2rem; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+nav { 
+  background: rgba(15,15,16,0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 800; color: var(--ink); text-decoration: none; letter-spacing: -0.02em; }
+.nav-logo span { color: var(--blue); }
+.nav-links { display: flex; gap: 0.2rem; list-style: none; }
+.nav-links a { font-size: 0.78rem; font-weight: 500; color: var(--ink2); text-decoration: none; padding: 0.3rem 0.7rem; border-radius: 20px; transition: background 0.2s, color 0.2s; }
+.nav-links a:hover { background: var(--blue-soft); color: var(--blue); }
+@media(max-width:768px){ .nav-links { display: none; } }
 
-  section { position: relative; z-index: 10; }
+#hero { max-width: 900px; margin: 0 auto; padding: 6rem 2rem 4rem; }
+.hero-badge { display: inline-block; background: var(--blue-soft); color: var(--blue); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.3rem 0.85rem; border-radius: 20px; margin-bottom: 1.5rem; }
+#hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(2.4rem, 6vw, 5rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; color: var(--ink); margin-bottom: 1.25rem; }
+#hero h1 em { color: var(--blue); font-style: normal; }
+.hero-sub { font-size: 1.1rem; color: var(--ink2); max-width: 560px; line-height: 1.7; margin-bottom: 1.5rem; }
+.hero-question { display: inline-block; font-size: 0.9rem; font-weight: 600; color: var(--orange); background: var(--orange-soft); padding: 0.45rem 1rem; border-radius: 20px; margin-bottom: 2rem; }
+.btn-row { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.btn { display: inline-block; font-family: 'Space Grotesk', sans-serif; font-size: 0.875rem; font-weight: 600; padding: 0.7rem 1.5rem; border-radius: 8px; text-decoration: none; transition: all 0.2s; cursor: pointer; border: none; }
+.btn-solid { background: var(--blue); color: #fff; }
+.btn-solid:hover { background: #0044dd; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(26,92,255,0.3); }
+.btn-ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--border); }
+.btn-ghost:hover { border-color: var(--blue); color: var(--blue); }
 
-  /* ── HERO ── */
-  #hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    text-align: center;
-    overflow: hidden;
-  }
+.stats-bar { background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); display: grid; grid-template-columns: repeat(4, 1fr); }
+@media(max-width:600px){ .stats-bar { grid-template-columns: repeat(2,1fr); } }
+.stat { padding: 1.75rem 1.5rem; border-right: 1px solid var(--border); text-align: center; }
+.stat:last-child { border-right: none; }
+.stat-n { font-family: 'Syne', sans-serif; font-size: 1.9rem; font-weight: 800; color: var(--blue); display: block; line-height: 1; margin-bottom: 0.3rem; }
+.stat-l { font-size: 0.97rem; color: var(--ink3); line-height: 1.4; }
 
-  .hero-glow {
-    position: absolute;
-    width: 700px; height: 700px;
-    background: radial-gradient(circle, rgba(0,245,255,0.07) 0%, transparent 70%);
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    animation: pulse 6s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
-    50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
-  }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 5rem 2rem; }
+.wrap-sm { max-width: 800px; margin: 0 auto; padding: 5rem 2rem; }
+.section-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.4rem; display: block; }
+.section-title { font-family: 'Syne', sans-serif; font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; color: var(--ink); margin-bottom: 2.5rem; }
+.section-title em { color: var(--blue); font-style: normal; }
 
-  .hero-label {
-    font-family: 'Orbitron', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.5em;
-    color: var(--cyan);
-    text-transform: uppercase;
-    opacity: 0;
-    animation: fadeSlideUp 0.8s 0.3s forwards;
-    margin-bottom: 1.5rem;
-  }
+.tech-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+.tech-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; transition: box-shadow 0.2s, transform 0.2s; }
+.tech-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.07); transform: translateY(-2px); }
+.tech-card-top { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+.tech-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+.tech-icon.blue { background: var(--blue-soft); }
+.tech-icon.orange { background: var(--orange-soft); }
+.tech-icon.green { background: var(--green-soft); }
+.tech-icon.yellow { background: #fffbe6; }
+.tech-card h3 { font-size: 0.95rem; font-weight: 700; color: var(--ink); }
+.tech-card p { font-size: 0.875rem; color: var(--ink2); line-height: 1.65; }
+.tech-num { font-size: 0.63rem; font-weight: 700; letter-spacing: 0.1em; color: var(--ink3); margin-bottom: 0.2rem; }
 
-  .hero-title {
-    font-family: 'Orbitron', monospace;
-    font-size: clamp(2rem, 6vw, 5.5rem);
-    font-weight: 900;
-    line-height: 1.05;
-    letter-spacing: -0.01em;
-    opacity: 0;
-    animation: fadeSlideUp 0.9s 0.6s forwards;
-    margin-bottom: 1rem;
-  }
-  .hero-title span.glow {
-    color: var(--cyan);
-    text-shadow: 0 0 20px var(--cyan), 0 0 60px rgba(0,245,255,0.4);
-  }
+.table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; font-size: 0.875rem; background: var(--white); }
+thead th { background: var(--bg2); padding: 0.875rem 1rem; text-align: left; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink2); border-bottom: 1px solid var(--border); }
+thead th:first-child { color: var(--ink3); }
+td { padding: 0.875rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; color: var(--ink); }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--bg); }
+td:first-child { font-weight: 600; color: var(--ink2); white-space: nowrap; }
+.tg { color: var(--green); font-weight: 600; }
+.tb { color: var(--orange); font-weight: 600; }
+.tm { color: #c98000; font-weight: 600; }
 
-  .hero-subtitle {
-    font-size: clamp(1rem, 2.5vw, 1.5rem);
-    font-weight: 300;
-    font-style: italic;
-    color: var(--muted);
-    max-width: 700px;
-    opacity: 0;
-    animation: fadeSlideUp 0.9s 0.9s forwards;
-    margin-bottom: 3rem;
-    line-height: 1.7;
-  }
+.app-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+.app-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; transition: box-shadow 0.2s, transform 0.2s; }
+.app-card:hover { box-shadow: 0 4px 18px hsla(0, 0%, 0%, 0.07); transform: translateY(-2px); }
+.app-card .icon { font-size: 1.6rem; margin-bottom: 0.6rem; display: block; }
+.app-card h3 { font-size: 0.875rem; font-weight: 700; margin-bottom: 0.4rem; }
+.app-card p { font-size: 0.82rem; color: var(--ink2); line-height: 1.6; }
+.chip { display: inline-block; margin-top: 0.7rem; font-size: 0.63rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--blue); background: var(--blue-soft); padding: 0.2rem 0.5rem; border-radius: 4px; }
 
-  .hero-question {
-    font-family: 'Orbitron', monospace;
-    font-size: clamp(0.8rem, 2vw, 1.2rem);
-    color: var(--accent);
-    letter-spacing: 0.2em;
-    opacity: 0;
-    animation: fadeSlideUp 0.9s 1.2s forwards;
-    margin-bottom: 3rem;
-  }
+.timeline { position: relative; padding-left: 2rem; }
+.timeline::before { content: ''; position: absolute; left: 7px; top: 6px; bottom: 0; width: 2px; background: var(--border); }
+.tl-item { position: relative; margin-bottom: 2.5rem; opacity: 0; transform: translateX(-16px); transition: opacity 0.5s, transform 0.5s; }
+.tl-item.vis { opacity: 1; transform: none; }
+.tl-dot { position: absolute; left: -1.75rem; top: 4px; width: 14px; height: 14px; border-radius: 50%; background: var(--white); border: 2px solid var(--blue); z-index: 1; }
+.tl-dot.future { border-color: var(--orange); background: var(--orange-soft); }
+.tl-year { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; color: var(--blue); text-transform: uppercase; margin-bottom: 0.2rem; }
+.tl-year.future { color: var(--orange); }
+.tl-item h3 { font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.3rem; }
+.tl-item p { font-size: 0.875rem; color: var(--ink2); line-height: 1.65; }
 
-  .btn-group {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    opacity: 0;
-    animation: fadeSlideUp 0.9s 1.5s forwards;
-  }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+@media(max-width:700px){ .two-col { grid-template-columns: 1fr; } }
 
-  .btn {
-    font-family: 'Orbitron', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding: 0.85rem 2rem;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-  .btn-primary {
-    background: var(--cyan);
-    color: var(--deep);
-    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-  }
-  .btn-primary:hover {
-    background: #fff;
-    box-shadow: 0 0 30px var(--cyan);
-    transform: translateY(-2px);
-  }
-  .btn-outline {
-    background: transparent;
-    color: var(--cyan);
-    border: 1px solid var(--cyan);
-    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-  }
-  .btn-outline:hover {
-    background: rgba(0,245,255,0.1);
-    box-shadow: 0 0 20px rgba(0,245,255,0.3);
-    transform: translateY(-2px);
-  }
+.debate-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; }
+.debate-card.pro { border-top: 3px solid var(--blue); }
+.debate-card.con { border-top: 3px solid var(--orange); }
+.debate-card h3 { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.25rem; }
+.debate-card.pro h3 { color: var(--blue); }
+.debate-card.con h3 { color: var(--orange); }
+.point { display: flex; gap: 0.6rem; margin-bottom: 0.875rem; align-items: flex-start; }
+.dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 0.45rem; flex-shrink: 0; }
+.dot-b { background: var(--blue); }
+.dot-o { background: var(--orange); }
+.point p { font-size: 0.875rem; color: var(--ink2); line-height: 1.6; }
 
-  /* Scroll indicator */
-  .scroll-hint {
-    position: absolute;
-    bottom: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    opacity: 0;
-    animation: fadeIn 1s 2.5s forwards;
-    color: var(--muted);
-    font-size: 0.7rem;
-    letter-spacing: 0.3em;
-  }
-  .scroll-line {
-    width: 1px;
-    height: 50px;
-    background: linear-gradient(to bottom, var(--cyan), transparent);
-    animation: scrollPulse 2s ease-in-out infinite;
-  }
-  @keyframes scrollPulse {
-    0%, 100% { transform: scaleY(1); opacity: 1; }
-    50% { transform: scaleY(0.5); opacity: 0.3; }
-  }
+.society-block h3 { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); margin-bottom: 1.25rem; }
+.society-block.opp h3 { color: var(--blue); border-color: var(--blue); }
+.society-block.risk h3 { color: var(--orange); border-color: var(--orange); }
+.soc-item { display: flex; gap: 0.75rem; margin-bottom: 1.1rem; }
+.soc-num { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 800; color: var(--border); line-height: 1; flex-shrink: 0; width: 1.8rem; }
+.soc-item p { font-size: 0.875rem; line-height: 1.65; color: var(--ink2); }
+.soc-item strong { color: var(--ink); font-weight: 600; }
 
-  /* ── INTRO BAR ── */
-  .intro-bar {
-    background: linear-gradient(135deg, rgba(0,245,255,0.08), rgba(255,107,53,0.05));
-    border-top: 1px solid rgba(0,245,255,0.15);
-    border-bottom: 1px solid rgba(0,245,255,0.15);
-    padding: 3rem 2rem;
-    text-align: center;
-  }
-  .intro-bar p {
-    max-width: 860px;
-    margin: 0 auto;
-    font-size: 1.15rem;
-    line-height: 1.9;
-    color: var(--text);
-  }
-  .intro-bar strong { color: var(--cyan); font-weight: 600; }
+.quote-block { background: var(--blue-soft); border-left: 3px solid var(--blue); border-radius: 0 var(--radius) var(--radius) 0; padding: 1.5rem 2rem; margin: 2.5rem 0; }
+.quote-block blockquote { font-size: 1rem; font-style: italic; line-height: 1.75; color: var(--ink); margin-bottom: 0.5rem; }
+.quote-block cite { font-size: 0.75rem; font-weight: 600; color: var(--blue); font-style: normal; }
 
-  /* ── SECTION HEADINGS ── */
-  .section-wrap { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; }
+.expert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+.expert-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; }
+.expert-card blockquote { font-size: 0.875rem; font-style: italic; color: var(--ink2); line-height: 1.7; margin-bottom: 1rem; }
+.expert-name { font-size: 0.85rem; font-weight: 700; color: var(--ink); }
+.expert-role { font-size: 0.75rem; color: var(--ink3); }
 
-  .section-tag {
-    font-family: 'Orbitron', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.5em;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 0.75rem;
-    display: block;
-  }
-  .section-title {
-    font-family: 'Orbitron', monospace;
-    font-size: clamp(1.6rem, 4vw, 2.8rem);
-    font-weight: 700;
-    line-height: 1.15;
-    margin-bottom: 3rem;
-    color: #fff;
-  }
-  .section-title em { color: var(--cyan); font-style: normal; }
+.faq { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--white); }
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-item:last-child { border-bottom: none; }
+.faq-q { width: 100%; background: none; border: none; text-align: left; padding: 1.1rem 1.5rem; font-family: 'Space Grotesk', sans-serif; font-size: 0.92rem; font-weight: 600; color: var(--ink); cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; transition: background 0.15s; }
+.faq-q:hover { background: var(--bg); }
+.faq-arrow { color: var(--blue); font-size: 0.75rem; transition: transform 0.25s; flex-shrink: 0; }
+.faq-item.open .faq-arrow { transform: rotate(180deg); }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.25s; font-size: 0.875rem; color: var(--ink2); line-height: 1.75; padding: 0 1.5rem; }
+.faq-item.open .faq-a { max-height: 300px; padding: 0 1.5rem 1.25rem; }
 
-  /* ── TECH GRID ── */
-  .tech-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5px;
-    background: rgba(0,245,255,0.08);
-    border: 1px solid rgba(0,245,255,0.1);
-  }
-  .tech-card {
-    background: var(--card);
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s;
-  }
-  .tech-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px;
-    height: 100%;
-    background: var(--cyan);
-    transform: scaleY(0);
-    transform-origin: top;
-    transition: transform 0.4s;
-  }
-  .tech-card:hover::before { transform: scaleY(1); }
-  .tech-card:hover {
-    background: rgba(0,245,255,0.05);
-    transform: translateX(4px);
-  }
+#conclusion { background: black; color: #fff; padding: 6rem 2rem; text-align: center; }
+#conclusion h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 1.5rem; line-height: 1.1; }
+#conclusion h2 em { color: #5b8fff; font-style: normal; }
+#conclusion p { max-width: 680px; margin: 0 auto 1rem; font-size: 1rem; line-height: 1.8; color: #aab5cc; }
+#conclusion p strong { color: #fff; }
+.conclusion-btns { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-top: 2.5rem; }
+.btn-white { background: #fff; color: var(--ink); }
+.btn-white:hover { background: #e8eeff; color: var(--blue); }
+.btn-dim { background: rgba(255, 255, 255, 0.08); color: #fff; border: 1.5px solid rgba(255,255,255,0.15); }
+.btn-dim:hover { background: rgba(255,255,255,0.14); }
 
-  .tech-card-icon {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    display: block;
-  }
-  .tech-card-num {
-    font-family: 'Orbitron', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.3em;
-    color: var(--muted);
-    margin-bottom: 0.5rem;
-  }
-  .tech-card h3 {
-    font-family: 'Orbitron', monospace;
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--cyan);
-    margin-bottom: 0.75rem;
-    letter-spacing: 0.05em;
-  }
-  .tech-card p {
-    font-size: 0.9rem;
-    line-height: 1.7;
-    color: var(--text);
-    opacity: 0.85;
-  }
+hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+.bg-white { background: var(--white); }
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.55s, transform 0.55s; }
+.reveal.vis { opacity: 1; transform: none; }
+footer { text-align: center; padding: 2rem; font-size: 0.75rem; color: var(--ink3); border-top: 1px solid var(--border); background: var(--bg); }
 
-  /* ── TIMELINE ── */
-  .timeline { position: relative; padding-left: 2.5rem; }
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 0.5rem;
-    top: 0; bottom: 0;
-    width: 1px;
-    background: linear-gradient(to bottom, var(--cyan), transparent);
-  }
-  .tl-item {
-    position: relative;
-    margin-bottom: 3rem;
-    opacity: 0;
-    transform: translateX(-20px);
-    transition: all 0.6s;
-  }
-  .tl-item.visible { opacity: 1; transform: none; }
-  .tl-dot {
-    position: absolute;
-    left: -2rem;
-    top: 0.3rem;
-    width: 12px; height: 12px;
-    border-radius: 50%;
-    background: var(--deep);
-    border: 2px solid var(--cyan);
-    box-shadow: 0 0 10px var(--cyan);
-  }
-  .tl-year {
-    font-family: 'Orbitron', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
-    color: var(--accent);
-    margin-bottom: 0.4rem;
-  }
-  .tl-item h3 {
-    font-family: 'Orbitron', monospace;
-    font-size: 1rem;
-    color: #fff;
-    margin-bottom: 0.5rem;
-  }
-  .tl-item p { font-size: 0.9rem; line-height: 1.7; color: var(--text); opacity: 0.8; }
 
-  /* ── DEBATE SECTION ── */
-  .debate-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
-    background: rgba(0,245,255,0.08);
-    margin-top: 2rem;
-  }
-  @media(max-width:700px){ .debate-grid { grid-template-columns: 1fr; } }
-
-  .debate-side {
-    padding: 2.5rem;
-    background: var(--card);
-  }
-  .debate-side.pro { border-top: 3px solid var(--cyan); }
-  .debate-side.con { border-top: 3px solid var(--accent); }
-  .debate-side h3 {
-    font-family: 'Orbitron', monospace;
-    font-size: 0.85rem;
-    letter-spacing: 0.2em;
-    margin-bottom: 1.5rem;
-  }
-  .debate-side.pro h3 { color: var(--cyan); }
-  .debate-side.con h3 { color: var(--accent); }
-  .debate-point {
-    display: flex;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-    align-items: flex-start;
-  }
-  .debate-point-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    margin-top: 0.4rem;
-    flex-shrink: 0;
-  }
-  .pro .debate-point-dot { background: var(--cyan); }
-  .con .debate-point-dot { background: var(--accent); }
-  .debate-point p { font-size: 0.9rem; line-height: 1.6; color: var(--text); opacity: 0.85; }
-
-  /* ── STATS ── */
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1.5px;
-    background: rgba(0,245,255,0.08);
-    border: 1px solid rgba(0,245,255,0.08);
-    margin: 4rem 0;
-  }
-  .stat-box {
-    background: var(--card);
-    padding: 2rem 1.5rem;
-    text-align: center;
-  }
-  .stat-num {
-    font-family: 'Orbitron', monospace;
-    font-size: clamp(1.8rem, 4vw, 3rem);
-    font-weight: 900;
-    color: var(--cyan);
-    display: block;
-    text-shadow: 0 0 20px rgba(0,245,255,0.4);
-    line-height: 1;
-    margin-bottom: 0.5rem;
-  }
-  .stat-label {
-    font-size: 0.75rem;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  /* ── CONCLUSION ── */
-  #conclusion {
-    padding: 6rem 2rem;
-    text-align: center;
-    background: radial-gradient(ellipse at center, rgba(0,245,255,0.06) 0%, transparent 70%);
-    border-top: 1px solid rgba(0,245,255,0.1);
-  }
-  #conclusion .conclusion-icon {
-    font-size: 4rem;
-    display: block;
-    margin-bottom: 1.5rem;
-    animation: float 4s ease-in-out infinite;
-  }
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-12px); }
-  }
-  #conclusion h2 {
-    font-family: 'Orbitron', monospace;
-    font-size: clamp(1.5rem, 4vw, 3rem);
-    font-weight: 900;
-    margin-bottom: 1.5rem;
-    color: #fff;
-  }
-  #conclusion h2 span { color: var(--cyan); text-shadow: 0 0 25px var(--cyan); }
-  #conclusion p {
-    max-width: 750px;
-    margin: 0 auto 2rem;
-    font-size: 1.05rem;
-    line-height: 1.85;
-    color: var(--text);
-    opacity: 0.85;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    padding: 2rem;
-    text-align: center;
-    border-top: 1px solid rgba(0,245,255,0.08);
-    font-family: 'Orbitron', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.3em;
-    color: var(--muted);
-  }
-
-  /* Animations */
-  @keyframes fadeSlideUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  /* Scroll reveal */
-  .reveal {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.7s, transform 0.7s;
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: none;
-  }
-
-  /* ── COMPARISON TABLE ── */
-  .compare-table { width: 100%; border-collapse: collapse; margin-top: 2rem; font-size: 0.88rem; }
-  .compare-table th {
-    font-family: 'Orbitron', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    padding: 1rem 1.2rem;
-    text-align: left;
-    background: rgba(0,245,255,0.08);
-    border-bottom: 2px solid rgba(0,245,255,0.2);
-    color: var(--cyan);
-  }
-  .compare-table th:first-child { color: var(--muted); }
-  .compare-table td {
-    padding: 1rem 1.2rem;
-    border-bottom: 1px solid rgba(0,245,255,0.06);
-    vertical-align: top;
-    line-height: 1.6;
-  }
-  .compare-table tr:hover td { background: rgba(0,245,255,0.03); }
-  .compare-table td:first-child {
-    font-family: 'Orbitron', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    white-space: nowrap;
-  }
-  .compare-table .good { color: #4dffb4; }
-  .compare-table .bad { color: var(--accent); }
-  .compare-table .mid { color: var(--gold); }
-
-  /* ── APPLICATIONS ── */
-  .app-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1rem;
-    margin-top: 2rem;
-  }
-  .app-card {
-    background: var(--card);
-    border: 1px solid rgba(0,245,255,0.08);
-    padding: 1.75rem;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.3s, transform 0.3s;
-  }
-  .app-card:hover { border-color: var(--cyan); transform: translateY(-4px); }
-  .app-card::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--cyan), transparent);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s;
-  }
-  .app-card:hover::after { transform: scaleX(1); }
-  .app-icon { font-size: 2rem; margin-bottom: 0.75rem; display: block; }
-  .app-card h3 {
-    font-family: 'Orbitron', monospace;
-    font-size: 0.8rem;
-    letter-spacing: 0.08em;
-    color: var(--cyan);
-    margin-bottom: 0.5rem;
-  }
-  .app-card p { font-size: 0.88rem; line-height: 1.65; opacity: 0.85; }
-  .app-tag {
-    display: inline-block;
-    margin-top: 0.75rem;
-    font-family: 'Orbitron', monospace;
-    font-size: 0.55rem;
-    letter-spacing: 0.2em;
-    padding: 0.25rem 0.6rem;
-    border: 1px solid rgba(0,245,255,0.3);
-    color: var(--muted);
-  }
-
-  /* ── SOCIETY SECTION ── */
-  .society-cols {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    margin-top: 2rem;
-  }
-  @media(max-width:700px){ .society-cols { grid-template-columns: 1fr; gap: 1.5rem; } }
-  .society-block h3 {
-    font-family: 'Orbitron', monospace;
-    font-size: 0.8rem;
-    letter-spacing: 0.15em;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid rgba(0,245,255,0.1);
-  }
-  .society-item {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1.25rem;
-    align-items: flex-start;
-  }
-  .society-num {
-    font-family: 'Orbitron', monospace;
-    font-size: 1.5rem;
-    font-weight: 900;
-    color: rgba(0,245,255,0.2);
-    line-height: 1;
-    flex-shrink: 0;
-    width: 2rem;
-  }
-  .society-item p { font-size: 0.9rem; line-height: 1.65; }
-  .society-item strong { color: #fff; }
-
-  /* ── QUOTE ── */
-  .blockquote-wrap {
-    background: rgba(0,245,255,0.04);
-    border-left: 3px solid var(--cyan);
-    padding: 2rem 2.5rem;
-    margin: 3rem 0;
-    position: relative;
-  }
-  .blockquote-wrap::before {
-    content: '"';
-    position: absolute;
-    top: -0.5rem; left: 1rem;
-    font-size: 5rem;
-    color: rgba(0,245,255,0.1);
-    font-family: Georgia, serif;
-    line-height: 1;
-  }
-  .blockquote-wrap blockquote {
-    font-size: 1.1rem;
-    font-style: italic;
-    line-height: 1.8;
-    color: var(--text);
-    margin-bottom: 0.75rem;
-  }
-  .blockquote-wrap cite {
-    font-family: 'Orbitron', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    color: var(--cyan);
-  }
-
-  /* ── FAQ ── */
-  .faq-list { margin-top: 2rem; }
-  .faq-item {
-    border-bottom: 1px solid rgba(0,245,255,0.08);
-    overflow: hidden;
-  }
-  .faq-question {
-    width: 100%;
-    background: none;
-    border: none;
-    color: #fff;
-    font-family: 'Exo 2', sans-serif;
-    font-size: 1rem;
-    font-weight: 600;
-    text-align: left;
-    padding: 1.25rem 0;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    transition: color 0.2s;
-  }
-  .faq-question:hover { color: var(--cyan); }
-  .faq-arrow {
-    font-size: 0.8rem;
-    color: var(--cyan);
-    transition: transform 0.3s;
-    flex-shrink: 0;
-  }
-  .faq-item.open .faq-arrow { transform: rotate(180deg); }
-  .faq-answer {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease, padding 0.3s;
-    font-size: 0.92rem;
-    line-height: 1.75;
-    color: var(--text);
-    opacity: 0.85;
-  }
-  .faq-item.open .faq-answer {
-    max-height: 400px;
-    padding-bottom: 1.25rem;
-  }
-
-  /* ── EXPERTS ── */
-  .expert-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.5px;
-    background: rgba(0,245,255,0.06);
-    border: 1px solid rgba(0,245,255,0.08);
-    margin-top: 2rem;
-  }
-  .expert-card {
-    background: var(--card);
-    padding: 2rem;
-  }
-  .expert-quote {
-    font-size: 0.9rem;
-    font-style: italic;
-    line-height: 1.7;
-    margin-bottom: 1rem;
-    color: var(--text);
-    opacity: 0.9;
-  }
-  .expert-name {
-    font-family: 'Orbitron', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    color: var(--cyan);
-  }
-  .expert-role {
-    font-size: 0.75rem;
-    color: var(--muted);
-    margin-top: 0.2rem;
-  }
-
-  /* Horizontal separator */
-  .sep {
-    width: 60px;
-    height: 2px;
-    background: var(--cyan);
-    margin: 0 auto 2rem;
-    box-shadow: 0 0 10px var(--cyan);
-  }
-
-  /* Nav */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.25rem 2.5rem;
-    background: rgba(0,6,15,0.7);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(0,245,255,0.08);
-  }
-  .nav-logo {
-    font-family: 'Orbitron', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.3em;
-    color: var(--cyan);
-    text-decoration: none;
-  }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a {
-    font-family: 'Orbitron', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    color: var(--muted);
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--cyan); }
-  @media(max-width:600px){ .nav-links { display: none; } }
 </style>
 </head>
 <body>
 
-<!-- Custom cursor -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-
-<!-- Stars -->
-<div class="stars" id="stars"></div>
-<div class="grid-overlay"></div>
-<div class="scanline"></div>
-
-<!-- Nav -->
 <nav>
-  <a class="nav-logo" href="#">КОМП'ЮТЕР 2050</a>
-  <ul class="nav-links">
-    <li><a href="#tech">Технології</a></li>
-    <li><a href="#compare">Порівняння</a></li>
-    <li><a href="#apps">Застосування</a></li>
-    <li><a href="#society">Суспільство</a></li>
-    <li><a href="#debate">Дискусія</a></li>
-    <li><a href="#faq">FAQ</a></li>
-    <li><a href="#conclusion">Висновок</a></li>
-  </ul>
+  <a class="nav-logo" href="#">Комп'ютер <span>Майбутнього</span></a>
 </nav>
 
-<!-- HERO -->
 <section id="hero">
-  <div class="hero-glow"></div>
-  <p class="hero-label">Навчальний проєкт</p>
-  <h1 class="hero-title">
-    Комп'ютер<br>
-    <span class="glow">Майбутнього</span>
-  </h1>
-  <p class="hero-subtitle">
-    Від кремнієвих мрій до квантових реальностей — дослідження технологій, що переписують правила обчислень
-  </p>
-  <p class="hero-question">Перші кроки чи далекі перспективи?</p>
-  <div class="scroll-hint">
-    <span>SCROLL</span>
-    <div class="scroll-line"></div>
-  </div>
+  <span class="hero-badge">Навчальний проєкт</span>
+  <h1>Комп'ютер<br><em>Майбутнього</em></h1>
 </section>
 
-<!-- INTRO -->
-<div class="intro-bar reveal">
-  <p>
-    Сучасні комп'ютери здатні на те, що 50 років тому здавалося фантастикою. Але <strong>чи готові ми до наступного стрибку?</strong> Квантові процесори, нейроморфні чіпи, ДНК-зберігання — усе це вже існує в лабораторіях. Питання лише в тому, <strong>коли реальність доженить мрію.</strong>
-  </p>
+<div class="stats-bar">
+  <div class="stat"><span class="stat-n">КВАНТОВІ</span><span class="stat-l">експоненційна швидкість обчислень.</span></div>
+  <div class="stat"><span class="stat-n">НЕЙРОМОРФНІ</span><span class="stat-l">мислення замість інструкцій.</span></div>
+  <div class="stat"><span class="stat-n">ФОТОННІ</span><span class="stat-l">світло замість електронів.</span></div>
+  <div class="stat"><span class="stat-n">&lt;1нм</span><span class="stat-l">техпроцес майбутніх чіпів. (1нм = 0,000001мм)</span></div>
 </div>
 
-<!-- STATS -->
-<div class="section-wrap">
-  <div class="stats-row reveal">
-    <div class="stat-box">
-      <span class="stat-num">10⁶</span>
-      <span class="stat-label">разів швидше квантові процесори</span>
-    </div>
-    <div class="stat-box">
-      <span class="stat-num">2030</span>
-      <span class="stat-label">прогноз появи квантових ПК</span>
-    </div>
-    <div class="stat-box">
-      <span class="stat-num">215 ЕБ</span>
-      <span class="stat-label">у 1 г ДНК-носія</span>
-    </div>
-    <div class="stat-box">
-      <span class="stat-num">&lt;1нм</span>
-      <span class="stat-label">техпроцес майбутніх чіпів</span>
-    </div>
+<div class="bg-white">
+  <div class="wrap-sm reveal" style="padding-top:3.5rem;padding-bottom:3.5rem;">
+    <p style="font-size:1.1rem;color:var(--ink2);line-height:1.85;">Сучасні комп'ютери здатні на те, що 50 років тому здавалося фантастикою.</p>
   </div>
 </div>
 
-<!-- TECH -->
+<hr class="divider">
+
 <section id="tech">
-  <div class="section-wrap">
-    <span class="section-tag reveal">Ключові технології</span>
+  <div class="wrap">
     <h2 class="section-title reveal">Що змінить <em>все</em></h2>
     <div class="tech-grid reveal">
       <div class="tech-card">
-        <span class="tech-card-icon">⚛️</span>
-        <div class="tech-card-num">01 · QUANTUM</div>
-        <h3>Квантові обчислення</h3>
-        <p>Кубіти здатні існувати в суперпозиції станів, що дозволяє вирішувати задачі, непосильні для класичних машин. IBM і Google вже досягли «квантової переваги» для окремих задач.</p>
+        <div class="tech-num">02 · NEURO</div>
+        <div class="tech-card-top"><div class="tech-icon orange">🧠</div><h3>Нейроморфні чіпи</h3></div>
+        <p>Архітектура, натхненна мозком: мільярди штучних синапсів, мінімальне споживання. Intel Loihi 2 обробляє дані у 1000 разів ефективніше за GPU.</p>
       </div>
       <div class="tech-card">
-        <span class="tech-card-icon">🧠</span>
-        <div class="tech-card-num">02 · NEURO</div>
-        <h3>Нейроморфні чіпи</h3>
-        <p>Архітектура, натхненна мозком людини: мільярди штучних синапсів, надмала споживання енергії. Intel Loihi 2 обробляє дані в 1000 разів ефективніше за традиційні GPU.</p>
+        <div class="tech-num">04 · PHOTON</div>
+        <div class="tech-card-top"><div class="tech-icon yellow">💡</div><h3>Фотонні процесори</h3></div>
+        <p>Передача даних фотонами: швидкість світла, нульові теплові втрати. Lightmatter і PsiQuantum будують фотонні обчислювачі вже сьогодні.</p>
       </div>
       <div class="tech-card">
-        <span class="tech-card-icon">🧬</span>
-        <div class="tech-card-num">03 · BIO</div>
-        <h3>ДНК-обчислення</h3>
-        <p>Один грам ДНК може зберігати 215 екзабайт даних — більше, ніж всі серверні ферми світу. Microsoft та Twist Bioscience вже розробляють комерційні ДНК-накопичувачі.</p>
-      </div>
-      <div class="tech-card">
-        <span class="tech-card-icon">💡</span>
-        <div class="tech-card-num">04 · PHOTON</div>
-        <h3>Фотонні процесори</h3>
-        <p>Передача даних за допомогою фотонів замість електронів: швидкість світла, нульові теплові втрати. Lightmatter і PsiQuantum будують фотонні обчислювачі вже сьогодні.</p>
-      </div>
-      <div class="tech-card">
-        <span class="tech-card-icon">🔬</span>
-        <div class="tech-card-num">05 · NANO</div>
-        <h3>Нанотехнології</h3>
-        <p>Транзистори розміром в кілька атомів, молекулярні машини як елементи пам'яті. TSMC та Intel вже тестують 2нм і 1нм техпроцеси, наближаючись до квантових ефектів.</p>
-      </div>
-      <div class="tech-card">
-        <span class="tech-card-icon">🌐</span>
-        <div class="tech-card-num">06 · MESH</div>
-        <h3>Розподілений інтелект</h3>
-        <p>Мільярди пристроїв IoT та edge-вузлів формують єдину обчислювальну тканину. Рій мікрокомп'ютерів може перевершити потужність суперкомп'ютера за допомогою колективного інтелекту.</p>
+        <div class="tech-num">05 · NANO</div>
+        <div class="tech-card-top"><div class="tech-icon blue">🔬</div><h3>Нанотехнології</h3></div>
+        <p>Транзистори розміром у кілька атомів. TSMC та Intel тестують 2нм і 1нм техпроцеси, наближаючись до фізичних меж кремнієвих технологій.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- COMPARISON TABLE -->
-<section id="compare" style="background: rgba(0,13,26,0.6); border-top:1px solid rgba(0,245,255,0.06);">
-  <div class="section-wrap">
-    <span class="section-tag reveal">Детальний аналіз</span>
+<hr class="divider">
+
+<section id="compare" class="bg-white">
+  <div class="wrap">
     <h2 class="section-title reveal">Типи комп'ютерів <em>майбутнього</em></h2>
-    <div class="reveal" style="overflow-x:auto;">
-      <table class="compare-table">
-        <thead>
-          <tr>
-            <th>Параметр</th>
-            <th>Класичний ПК</th>
-            <th>Квантовий</th>
-            <th>Нейроморфний</th>
-            <th>Фотонний</th>
-          </tr>
-        </thead>
+    <div class="table-wrap reveal">
+      <table>
+        <thead><tr><th>Параметр</th><th>Класичний ПК</th><th>Квантовий</th><th>Нейроморфний</th><th>Фотонний</th></tr></thead>
         <tbody>
-          <tr>
-            <td>Принцип роботи</td>
-            <td>Біти (0/1), кремній</td>
-            <td class="mid">Кубіти, суперпозиція</td>
-            <td class="good">Синапси, спайки</td>
-            <td class="good">Фотони, оптика</td>
-          </tr>
-          <tr>
-            <td>Швидкість</td>
-            <td>GHz (до ~5 ГГц)</td>
-            <td class="good">Експоненційно вища для окремих задач</td>
-            <td class="mid">~1000× ефективніше GPU</td>
-            <td class="good">Швидкість світла</td>
-          </tr>
-          <tr>
-            <td>Споживання енергії</td>
-            <td class="mid">Середнє (65–350 Вт)</td>
-            <td class="bad">Екстремальне (охолодження)</td>
-            <td class="good">Мінімальне (мВт)</td>
-            <td class="good">Мале (без тепла)</td>
-          </tr>
-          <tr>
-            <td>Зберігання даних</td>
-            <td>SSD/HDD ТБ</td>
-            <td class="bad">Немає постійної пам'яті</td>
-            <td class="mid">Вбудована нейропам'ять</td>
-            <td class="mid">Оптичні буфери</td>
-          </tr>
-          <tr>
-            <td>Стабільність</td>
-            <td class="good">Висока</td>
-            <td class="bad">Декогеренція — ключова проблема</td>
-            <td class="good">Висока, толерантна до збоїв</td>
-            <td class="mid">Потребує ізоляції</td>
-          </tr>
-          <tr>
-            <td>Вартість (2025)</td>
-            <td class="good">$300–$5,000</td>
-            <td class="bad">$10–$50 млн+</td>
-            <td class="mid">$50,000–$200,000</td>
-            <td class="bad">Лаб. прототипи</td>
-          </tr>
-          <tr>
-            <td>Готовність до масового ринку</td>
-            <td class="good">✔ Зараз</td>
-            <td class="bad">✖ 10–20 років</td>
-            <td class="mid">~ 3–7 років</td>
-            <td class="bad">✖ 10–15 років</td>
-          </tr>
-          <tr>
-            <td>Найкраще застосування</td>
-            <td>Все загального призначення</td>
-            <td class="mid">Криптографія, симуляція молекул, оптимізація</td>
-            <td class="good">ШІ, розпізнавання образів, роботика</td>
-            <td class="good">ШІ-прискорення, телекомунікації</td>
-          </tr>
+          <tr><td>Принцип роботи</td><td>Біти (0/1)</td><td class="tm">Кубіти</td><td class="tg">Як мозок</td><td class="tg">Фотони</td></tr>
+          <tr><td>Швидкість</td><td>До ~5 ГГц</td><td class="tg">Дуже швидкий для складних задач</td><td class="tm">Швидкий для ШІ</td><td class="tg">Швидкість світла</td></tr>
+          <tr><td>Споживання енергії</td><td class="tm">65–350 Вт</td><td class="tb">Дуже велика</td><td class="tg">Дуже мала</td><td class="tg">Мала</td></tr>
+          <tr><td>Стабільність</td><td class="tg">Стабільний</td><td class="tb">Нестабільний</td><td class="tg">Стабільний</td><td class="tm">Складний у запуску</td></tr>
+          <tr><td>Вартість (2025)</td><td class="tg">$300–$5 000</td><td class="tb">$10–$50 млн+</td><td class="tm">$50 000–$200 000</td><td class="tb">Лаб. прототипи</td></tr>
+          <tr><td>Ринкова готовність</td><td class="tg">✔ Зараз</td><td class="tb">✖ 10–20 років</td><td class="tm">~ 3–7 років</td><td class="tb">✖ 10–15 років</td></tr>
+          <tr><td>Найкраще для</td><td>Все</td><td>Складні задачі</td><td>ШІ</td><td>Швидкі обчислення</td></tr>
         </tbody>
       </table>
     </div>
-
-    <div class="blockquote-wrap reveal" style="margin-top:3rem;">
+    <div class="quote-block reveal">
       <blockquote>Квантові комп'ютери не замінять класичні — вони вирішуватимуть задачі, які класичні машини ніколи не зможуть вирішити за розумний час.</blockquote>
-      <cite>— Джон Преськілл, фізик Каліфорнійського технологічного інституту, автор терміну «квантова перевага»</cite>
+      <cite>— Джон Преськілл, фізик Каліфорнійського технологічного інституту</cite>
     </div>
   </div>
 </section>
 
-<!-- APPLICATIONS -->
+<hr class="divider">
+
 <section id="apps">
-  <div class="section-wrap">
-    <span class="section-tag reveal">Де це змінить наше життя</span>
+  <div class="wrap">
     <h2 class="section-title reveal">Застосування <em>нових технологій</em></h2>
     <div class="app-grid reveal">
-      <div class="app-card">
-        <span class="app-icon">💊</span>
-        <h3>Медицина та фармація</h3>
-        <p>Квантові комп'ютери симулюватимуть поведінку молекул на атомному рівні — це відкриє нові ліки від раку, Альцгеймера та антибіотикорезистентних бактерій за роки, а не десятиліття.</p>
-        <span class="app-tag">QUANTUM · BIO</span>
-      </div>
-      <div class="app-card">
-        <span class="app-icon">🔐</span>
-        <h3>Кібербезпека</h3>
-        <p>Квантова криптографія зробить перехоплення даних фізично неможливим — будь-яка спроба зчитати квантовий ключ руйнує його. Але й сучасне шифрування RSA стане вразливим.</p>
-        <span class="app-tag">QUANTUM · SECURITY</span>
-      </div>
-      <div class="app-card">
-        <span class="app-icon">🌍</span>
-        <h3>Кліматичне моделювання</h3>
-        <p>Симуляція атмосфери Землі з точністю до молекули дозволить передбачати клімат на 100 років вперед. Нейроморфні чіпи оброблятимуть дані мільйонів сенсорів у реальному часі.</p>
-        <span class="app-tag">QUANTUM · NEURO</span>
-      </div>
-      <div class="app-card">
-        <span class="app-icon">🚀</span>
-        <h3>Космічні дослідження</h3>
-        <p>Бортові нейроморфні комп'ютери зможуть приймати рішення в космосі без зв'язку з Землею. Фотонні процесори витримають радіацію, де кремній деградує.</p>
-        <span class="app-tag">NEURO · PHOTON</span>
-      </div>
-      <div class="app-card">
-        <span class="app-icon">🏭</span>
-        <h3>Виробництво та логістика</h3>
-        <p>Квантова оптимізація вирішить задачу комівояжера для мільйонів точок — маршрути доставки, ланцюги постачання, планування виробництва стануть ідеальними.</p>
-        <span class="app-tag">QUANTUM · MESH</span>
-      </div>
-      <div class="app-card">
-        <span class="app-icon">🧪</span>
-        <h3>Матеріалознавство</h3>
-        <p>Розробка надпровідників, нових сплавів і полімерів на квантовому рівні. Вже сьогодні IBM використовує квантові симуляції для пошуку кімнатних надпровідників.</p>
-        <span class="app-tag">QUANTUM · NANO</span>
-      </div>
-      <div class="app-card">
-        <span class="app-icon">🤖</span>
-        <h3>Штучний інтелект</h3>
-        <p>Нейроморфні чіпи дозволяють навчати ШІ без масивних дата-центрів — прямо на пристрої. Фотонні акселератори вже прискорюють LLM у 100 разів при 1/10 споживання енергії.</p>
-        <span class="app-tag">NEURO · PHOTON</span>
-      </div>
-      <div class="app-card">
-        <span class="app-icon">🏙️</span>
-        <h3>Розумні міста</h3>
-        <p>Розподілений mesh-інтелект керуватиме трафіком, енергосітками, водопостачанням — тисячі edge-вузлів утворять єдину самоорганізовану систему без центрального сервера.</p>
-        <span class="app-tag">MESH · NANO</span>
-      </div>
-      <div class="app-card">
-        <span class="app-icon">🎓</span>
-        <h3>Освіта та наука</h3>
-        <p>BCI-інтерфейси дозволять засвоювати знання нейронними патернами. Квантові бази даних зберігатимуть усю наукову спадщину людства в декількох грамах ДНК-носія.</p>
-        <span class="app-tag">BCI · BIO</span>
-      </div>
+      <div class="app-card"><span class="icon">💊</span><h3>Медицина</h3><p>Квантові симуляції відкриють нові ліки від раку за роки, а не десятиліття.</p><span class="chip">Quantum · Bio</span></div>
+      <div class="app-card"><span class="icon">🌍</span><h3>Клімат</h3><p>Симуляція атмосфери з точністю до молекули передбачення клімату на 100 років вперед.</p><span class="chip">Quantum · Neuro</span></div>
+      <div class="app-card"><span class="icon">🚀</span><h3>Космос</h3><p>Бортові нейроморфні комп'ютери приймають рішення без зв'язку з Землею.</p><span class="chip">Neuro · Photon</span></div>
+      <div class="app-card"><span class="icon">🏭</span><h3>Логістика</h3><p>Квантова оптимізація для мільйонів точок - ланцюги постачання стануть ідеальними.</p><span class="chip">Quantum · Mesh</span></div>
+      <div class="app-card"><span class="icon">🤖</span><h3>Штучний інтелект</h3><p>Нейроморфні чіпи навчають ШІ без дата-центрів.</p><span class="chip">Neuro · Photon</span></div>
     </div>
   </div>
 </section>
 
-<!-- SOCIETY -->
-<section id="society" style="background: rgba(0,13,26,0.8); border-top:1px solid rgba(0,245,255,0.06); border-bottom:1px solid rgba(0,245,255,0.06);">
-  <div class="section-wrap">
-    <span class="section-tag reveal">Глибший вимір</span>
-    <h2 class="section-title reveal">Вплив на <em>суспільство</em></h2>
-    <div class="society-cols reveal">
-      <div class="society-block">
-        <h3 style="color:var(--cyan);">⚡ МОЖЛИВОСТІ</h3>
-        <div class="society-item">
-          <span class="society-num">01</span>
-          <p><strong>Персоналізована медицина.</strong> Аналіз геному пацієнта за хвилини, ліки розроблені під конкретну ДНК. Квантові симуляції скоротять час розробки препаратів з 12 до 2–3 років.</p>
-        </div>
-        <div class="society-item">
-          <span class="society-num">02</span>
-          <p><strong>Демократизація знань.</strong> Нейроморфні локальні ШІ без хмари — навіть у найвіддаленіших районах без інтернету можна мати повноцінний інтелектуальний асистент.</p>
-        </div>
-        <div class="society-item">
-          <span class="society-num">03</span>
-          <p><strong>Енергетична революція.</strong> Квантові симуляції допоможуть спроєктувати ефективніші сонячні панелі та батареї. Фотонні дата-центри споживатимуть на 90% менше електроенергії.</p>
-        </div>
-        <div class="society-item">
-          <span class="society-num">04</span>
-          <p><strong>Нові форми творчості.</strong> Людино-машинна синергія через BCI відкриє художні, музичні та наукові можливості, які неможливо уявити без прямого з'єднання розуму і комп'ютера.</p>
-        </div>
-      </div>
-      <div class="society-block">
-        <h3 style="color:var(--accent);">⚠ РИЗИКИ ТА ВИКЛИКИ</h3>
-        <div class="society-item">
-          <span class="society-num" style="color:rgba(255,107,53,0.25);">01</span>
-          <p><strong>Квантова загроза шифруванню.</strong> Більшість банківських систем, держпослуг і VPN будуть вразливими до квантових атак. «Harvest now, decrypt later» вже практикують спецслужби.</p>
-        </div>
-        <div class="society-item">
-          <span class="society-num" style="color:rgba(255,107,53,0.25);">02</span>
-          <p><strong>Цифрова нерівність.</strong> Держави та корпорації з квантовими комп'ютерами отримають нечувану перевагу в науці, бізнесі та військовій сфері. Технологічна прірва розшириться.</p>
-        </div>
-        <div class="society-item">
-          <span class="society-num" style="color:rgba(255,107,53,0.25);">03</span>
-          <p><strong>Ринок праці.</strong> Автоматизація на нейроморфних чіпах вдарить по логістиці, виробництву, аналітиці. За оцінками McKinsey, до 2035 року під загрозою буде до 30% робочих місць.</p>
-        </div>
-        <div class="society-item">
-          <span class="society-num" style="color:rgba(255,107,53,0.25);">04</span>
-          <p><strong>Приватність та BCI-ризики.</strong> Нейроінтерфейси відкривають доступ до думок і спогадів. Хто контролює дані мозку — і чи можна захистити їх від злому?</p>
-        </div>
-      </div>
-    </div>
+<hr class="divider">
 
-    <div class="blockquote-wrap reveal">
-      <blockquote>Ми стоїмо перед другою квантовою революцією. Перша дала нам лазери і транзистори. Друга дасть нам обчислення, що перевершать все, що ми здатні уявити.</blockquote>
-      <cite>— Мікіо Каку, теоретичний фізик, популяризатор науки</cite>
-    </div>
-  </div>
-</section>
-
-<!-- EXPERTS -->
-<section id="experts">
-  <div class="section-wrap">
-    <span class="section-tag reveal">Думки лідерів галузі</span>
-    <h2 class="section-title reveal">Що кажуть <em>експерти</em></h2>
-    <div class="expert-row reveal">
-      <div class="expert-card">
-        <p class="expert-quote">«Квантові обчислення — це не еволюція, це революція. Ми змінюємо саму природу того, що значить «обчислити».»</p>
-        <p class="expert-name">Дарій Гіл</p>
-        <p class="expert-role">Директор IBM Research</p>
-      </div>
-      <div class="expert-card">
-        <p class="expert-quote">«Нейроморфні системи дозволять ШІ жити не у хмарі, а поруч з вами — на чіпі розміром з монету, що працює від батарейки тижнями.»</p>
-        <p class="expert-name">Кріс Елісон</p>
-        <p class="expert-role">Intel Neuromorphic Research Community</p>
-      </div>
-      <div class="expert-card">
-        <p class="expert-quote">«Якщо ми вирішимо проблему декогеренції, наступне покоління побачить квантові ноутбуки — так само, як наше покоління побачило перші iPhone.»</p>
-        <p class="expert-name">Прія Хулларі</p>
-        <p class="expert-role">Google Quantum AI</p>
-      </div>
-      <div class="expert-card">
-        <p class="expert-quote">«ДНК — найгустіший носій інформації у Всесвіті. Мільярди років еволюції вже вирішили задачу зберігання. Нам залишилось навчитись читати і писати.»</p>
-        <p class="expert-name">Луїс Сез</p>
-        <p class="expert-role">Microsoft Research DNA Storage</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- HISTORY (existing, unchanged) -->
-<section id="history" style="background: rgba(0,13,26,0.8); border-top:1px solid rgba(0,245,255,0.06); border-bottom:1px solid rgba(0,245,255,0.06);">
-  <div class="section-wrap">
-    <span class="section-tag reveal">Шлях від минулого до майбутнього</span>
+<section id="history" class="bg-white">
+  <div class="wrap">
     <h2 class="section-title reveal">Хронологія <em>прориву</em></h2>
     <div class="timeline">
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <p class="tl-year">1946</p>
-        <h3>ENIAC — перший електронний комп'ютер</h3>
-        <p>30 тонн, 18 000 вакуумних трубок, 5000 операцій/с. Займав ціле приміщення — і це було революцією.</p>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <p class="tl-year">1971</p>
-        <h3>Перший мікропроцесор Intel 4004</h3>
-        <p>2300 транзисторів, 10 мкм техпроцес. Цілий ЦПУ на одному кристалі — початок ери персональних обчислень.</p>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <p class="tl-year">1997</p>
-        <h3>Deep Blue перемагає Каспарова</h3>
-        <p>Перша демонстрація того, що машина може перевершити людину в інтелектуальній грі. Символічний перелом у сприйнятті ШІ.</p>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <p class="tl-year">2019</p>
-        <h3>Google заявляє про квантову перевагу</h3>
-        <p>Процесор Sycamore за 200 секунд вирішив задачу, на яку класичному суперкомп'ютеру знадобилося б 10 000 років.</p>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <p class="tl-year">2025</p>
-        <h3>Сьогодення: 2нм чіпи та 1000+ кубітів</h3>
-        <p>Apple M4 та Nvidia Blackwell демонструють вражаючу продуктивність. IBM випустив квантовий процесор з 1121 кубітом.</p>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot" style="border-color:var(--accent); box-shadow: 0 0 10px var(--accent);"></div>
-        <p class="tl-year" style="color:var(--gold);">2035–2050</p>
-        <h3 style="color:var(--gold);">Горизонт: повноцінні квантові та нейроморфні системи</h3>
-        <p>Прогнози: ПК, що поєднує класичні, квантові та нейроморфні модулі. Обчислення, злиті з реальністю через BCI-інтерфейси.</p>
-      </div>
+      <div class="tl-item"><div class="tl-dot"></div><p class="tl-year">1946</p><h3>ENIAC - перший електронний комп'ютер</h3><p>30 тонн, 18 000 вакуумних трубок, 5000 операцій/с. Займав ціле приміщення — і це було революцією.</p></div>
+      <div class="tl-item"><div class="tl-dot"></div><p class="tl-year">1970</p><h3>СКАЛА</h3><p>Комп’ютер керування реактором на Чорнобильській АЕС. Контролював параметри РБМК - повільний і обмежений, але критично важливий для роботи станції.</p></div>
+      <div class="tl-item"><div class="tl-dot"></div><p class="tl-year">1997</p><h3>Deep Blue перемагає Каспарова</h3><p>Перша демонстрація того, що машина може перевершити людину в інтелектуальній грі.</p></div>
+      <div class="tl-item"><div class="tl-dot"></div><p class="tl-year">2019</p><h3>Google — квантова перевага</h3><p>Sycamore за 200 секунд вирішив задачу, на яку класичному суперкомп'ютеру знадобилося б 10 000 років.</p></div>
+      <div class="tl-item"><div class="tl-dot"></div><p class="tl-year">2025</p><h3>2нм чіпи та 1000+ кубітів</h3><p>Apple M4, Nvidia Blackwell - рекорди продуктивності.</p></div>
+      <div class="tl-item"><div class="tl-dot future"></div><p class="tl-year future">2030–2035</p><h3>Нейроморфні чіпи в кожному смартфоні</h3><p>Локальний ШІ без хмари, BCI-аксесуари споживчого класу, фотонні прискорювачі в дата-центрах.</p></div>
     </div>
   </div>
 </section>
 
-<!-- DEBATE -->
+<hr class="divider">
+
+<section id="society">
+  <div class="wrap">
+    <h2 class="section-title reveal">Вплив на <em>суспільство</em></h2>
+    <div class="two-col reveal">
+      <div class="society-block opp">
+        <h3>⚡ Можливості</h3>
+        <div class="soc-item"><span class="soc-num">01</span><p><strong>Персоналізована медицина.</strong> Аналіз геному за хвилини. Квантові симуляції скоротять час розробки ліків з 12 до 2–3 років.</p></div>
+        <div class="soc-item"><span class="soc-num">02</span><p><strong>Демократизація знань.</strong> Нейроморфний ШІ без хмари — повноцінний асистент навіть без інтернету.</p></div>
+        <div class="soc-item"><span class="soc-num">03</span><p><strong>Енергетична революція.</strong> Фотонні дата-центри споживатимуть на 90% менше електроенергії.</p></div>
+        <div class="soc-item"><span class="soc-num">04</span><p><strong>Нові форми творчості.</strong> BCI відкриє художні та наукові можливості через пряме з'єднання розуму і комп'ютера.</p></div>
+      </div>
+      <div class="society-block risk">
+        <h3>⚠ Ризики</h3>
+        <div class="soc-item"><span class="soc-num">01</span><p><strong>Квантова загроза шифруванню.</strong> Банківські системи та VPN стануть вразливими.</p></div>
+        <div class="soc-item"><span class="soc-num">02</span><p><strong>Цифрова нерівність.</strong> Держави з квантовими комп'ютерами отримають нечувану перевагу над іншими країнами.</p></div>
+        <div class="soc-item"><span class="soc-num">03</span><p><strong>Ринок праці.</strong> За оцінками McKinsey, до 2035 під загрозою — до 30% робочих місць у логістиці та аналітиці.</p></div>
+        <div class="soc-item"><span class="soc-num">04</span><p><strong>Приватність BCI.</strong> ЄС вже розробляє «нейроправа» — законодавство про захист ментальних даних.</p></div>
+      </div>
+    </div>
+    <div class="quote-block reveal">
+      <blockquote>Ми стоїмо перед другою квантовою революцією. Перша дала нам лазери і транзистори. Друга дасть нам обчислення, що перевершать все, що ми здатні уявити.</blockquote>
+      <cite>— Мікіо Каку, теоретичний фізик</cite>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section class="bg-white">
+  <div class="wrap">
+    <h2 class="section-title reveal">Що кажуть <em>експерти</em></h2>
+    <div class="expert-grid reveal">
+      <div class="expert-card"><blockquote>«Квантові обчислення — це не еволюція, це революція. Ми змінюємо саму природу того, що значить "обчислити".»</blockquote><p class="expert-name">Дарій Гіл</p><p class="expert-role">Директор IBM Research</p></div>
+      <div class="expert-card"><blockquote>«Нейроморфні системи дозволять ШІ жити поруч з вами — на чіпі розміром з монету, що працює від батарейки тижнями.»</blockquote><p class="expert-name">Intel Neuromorphic Lab</p><p class="expert-role">Intel Research Community</p></div>
+      <div class="expert-card"><blockquote>«Якщо ми вирішимо проблему декогеренції, наступне покоління побачить квантові ноутбуки — як наше побачило перші iPhone.»</blockquote><p class="expert-name">Google Quantum AI</p><p class="expert-role">Quantum Computing Division</p></div>
+      <div class="expert-card"><blockquote>«ДНК — найгустіший носій інформації у Всесвіті. Мільярди років еволюції вже вирішили задачу. Нам залишилось навчитись читати і писати.»</blockquote><p class="expert-name">Microsoft Research</p><p class="expert-role">DNA Storage Project</p></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
 <section id="debate">
-  <div class="section-wrap">
-    <span class="section-tag reveal">Аналіз перспектив</span>
+  <div class="wrap">
     <h2 class="section-title reveal">Перші кроки <em>чи</em> далекі перспективи?</h2>
-    <div class="debate-grid reveal">
-      <div class="debate-side pro">
-        <h3>✦ ВЖЕ ВІДБУВАЄТЬСЯ · ПЕРШІ КРОКИ</h3>
-        <div class="debate-point">
-          <div class="debate-point-dot"></div>
-          <p>IBM, Google та Microsoft мають робочі квантові процесори, доступні через хмарні сервіси вже сьогодні.</p>
-        </div>
-        <div class="debate-point">
-          <div class="debate-point-dot"></div>
-          <p>Intel Loihi 2 — нейроморфний чіп, що реально використовується в дослідницьких проєктах.</p>
-        </div>
-        <div class="debate-point">
-          <div class="debate-point-dot"></div>
-          <p>ДНК-зберігання даних вже протестовано: Microsoft зберегла відео у молекулах ДНК і успішно зчитала його.</p>
-        </div>
-        <div class="debate-point">
-          <div class="debate-point-dot"></div>
-          <p>2нм техпроцеси TSMC доступні для комерційного виробництва з 2025 року.</p>
-        </div>
-        <div class="debate-point">
-          <div class="debate-point-dot"></div>
-          <p>BCI-інтерфейси Neuralink вже протестовані на людях — комп'ютер стає частиною нас.</p>
-        </div>
+    <div class="two-col reveal">
+      <div class="debate-card pro">
+        <h3>✦ Вже відбувається · Перші кроки</h3>
+        <div class="point"><div class="dot dot-b"></div><p>IBM, Google та Microsoft мають робочі квантові процесори, доступні через хмарні сервіси.</p></div>
+        <div class="point"><div class="dot dot-b"></div><p>Intel Loihi 2 — нейроморфний чіп, який вже застосовують у дослідженнях.</p></div>
+        <div class="point"><div class="dot dot-b"></div><p>Microsoft змогла записати відео в ДНК і потім його відтворити.</p></div>
+        <div class="point"><div class="dot dot-b"></div><p>TSMC почала виробництво чіпів за 2 нм технологією (з 2025 року).</p></div>
+        <div class="point"><div class="dot dot-b"></div><p>Neuralink протестувала інтерфейси «мозок-комп’ютер» на людях.</p></div>
       </div>
-      <div class="debate-side con">
-        <h3>◆ ЩЕ ПОПЕРЕДУ · ДАЛЕКІ ПЕРСПЕКТИВИ</h3>
-        <div class="debate-point">
-          <div class="debate-point-dot"></div>
-          <p>Квантові комп'ютери потребують охолодження до −273°C — масове споживче використання поки нереальне.</p>
-        </div>
-        <div class="debate-point">
-          <div class="debate-point-dot"></div>
-          <p>Рівень помилок квантових систем (decoherence) залишається критично високим для практичних задач.</p>
-        </div>
-        <div class="debate-point">
-          <div class="debate-point-dot"></div>
-          <p>ДНК-запис і зчитування займає години та коштує тисячі доларів за мегабайт — не конкурентоспроможно.</p>
-        </div>
-        <div class="debate-point">
-          <div class="debate-point-dot"></div>
-          <p>Закон Мура добігає кінця: фізичні обмеження атомарного рівня ставлять жорстку межу мінімізації.</p>
-        </div>
-        <div class="debate-point">
-          <div class="debate-point-dot"></div>
-          <p>Програмне забезпечення для квантових машин — ще в зародковому стані; бракує кваліфікованих фахівців.</p>
-        </div>
+      <div class="debate-card con">
+        <h3>◆ Ще попереду · Далекі перспективи</h3>
+        <div class="point"><div class="dot dot-o"></div><p>Квантові комп'ютери потребують охолодження до −273°C — масове використання нереальне.</p></div>
+        <div class="point"><div class="dot dot-o"></div><p>Декогеренція залишається критично високою для практичних задач.</p></div>
+        <div class="point"><div class="dot dot-o"></div><p>Запис даних у ДНК дуже дорогий — тисячі доларів за 1 МБ.</p></div>
+        <div class="point"><div class="dot dot-o"></div><p>Закон Мура добігає кінця: фізичні обмеження рівня атома ставлять жорстку межу.</p></div>
+        <div class="point"><div class="dot dot-o"></div><p>ПЗ для квантових комп’ютерів мало, і спеціалістів теж не вистачає.</p></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FAQ -->
-<section id="faq" style="background: rgba(0,13,26,0.8); border-top:1px solid rgba(0,245,255,0.06);">
-  <div class="section-wrap">
-    <span class="section-tag reveal">Часті запитання</span>
-    <h2 class="section-title reveal">FAQ: <em>Відповіді на головне</em></h2>
-    <div class="faq-list reveal">
-      <div class="faq-item">
-        <button class="faq-question">Чи замінить квантовий комп'ютер мій домашній ПК? <span class="faq-arrow">▼</span></button>
-        <div class="faq-answer">Ні — принаймні не в найближчі 20–30 років. Квантові комп'ютери вирішують вузький клас задач (оптимізація, симуляція молекул, факторизація великих чисел). Для перегляду відео, роботи в браузері або запуску ігор класичні машини назавжди залишаться ефективнішими. Реалістичний сценарій: гібридні хмарні системи, де важкі задачі відправляються на квантовий сервер, а решта — на звичайний процесор.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question">Що таке «квантова перевага» і чи вже досягнуто? <span class="faq-arrow">▼</span></button>
-        <div class="faq-answer">Квантова перевага — момент, коли квантовий комп'ютер вирішує задачу швидше за будь-який класичний. У 2019 році Google заявив про досягнення цього: процесор Sycamore вирішив синтетичну задачу за 200 секунд, тоді як Summit знадобилося б 10 000 років. Критики зазначили, що задача була спеціально підібрана. У 2023–2024 роках IBM і Google демонстрували переваги на реальних хімічних симуляціях. Повна практична перевага для широкого кола задач — ще попереду.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question">Що таке декогеренція і чому це головна проблема? <span class="faq-arrow">▼</span></button>
-        <div class="faq-answer">Кубіти надзвичайно крихкі: будь-яка вібрація, тепло чи електромагнітний шум руйнує їх квантовий стан — це і є декогеренція. Саме тому сучасні квантові комп'ютери охолоджуються до −273,14°C (холодніше за відкритий космос) і ізолюються надретельно. Кубіти зберігають стан мілісекунди. Вирішення цієї проблеми через квантову корекцію помилок або топологічні кубіти — святий Грааль галузі.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question">Як нейроморфний комп'ютер відрізняється від звичайного ШІ? <span class="faq-arrow">▼</span></button>
-        <div class="faq-answer">Звичайний ШІ — це математичні операції на звичайних GPU/CPU: масивні матричні множення, що споживають мегавати. Нейроморфний чіп імітує біологічні нейрони: замість постійного обчислення він «стріляє» спайками тільки при зміні вхідних даних. Це схоже на те, як мозок не обробляє нерухому картину — активується лише при русі. Результат: у 100–1000 разів менше енергії при схожих або кращих результатах розпізнавання образів.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question">Чи небезпечні BCI-нейроінтерфейси? <span class="faq-arrow">▼</span></button>
-        <div class="faq-answer">Інвазивні BCI (як Neuralink) вимагають хірургічного втручання і несуть стандартні ризики операцій. Довгострокові наслідки вивчаються. Неінвазивні (EEG-гарнітури) безпечні, але мають низьку роздільну здатність. Головне соціальне питання — конфіденційність нейроданих: якщо пристрій зчитує мозкову активність, хто має доступ до цих даних? ЄС вже розробляє «нейроправа» — законодавство про захист ментальних даних.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question">Закон Мура «помер»? Що далі? <span class="faq-arrow">▼</span></button>
-        <div class="faq-answer">Закон Мура (подвоєння кількості транзисторів кожні 2 роки) сповільнюється, але не зупинився. TSMC з 2нм і майбутній 1нм техпроцес продовжують тенденцію. Однак після ~0,5нм квантові ефекти роблять класичні транзистори нестабільними. Альтернативи: 3D-стекінг (чіплети один на одного), нові матеріали (германій, нітрид галію), спінтроніка, і нарешті перехід до принципово нових архітектур — квантової, нейроморфної, фотонної.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question">Коли з'явиться «комп'ютер майбутнього» у продажу? <span class="faq-arrow">▼</span></button>
-        <div class="faq-answer">Залежить від того, що ми маємо на увазі. Нейроморфні чіпи в смартфонах і ноутбуках — вже у 2027–2030 рр. (Apple, Qualcomm активно інвестують). Квантовий хмарний доступ для бізнесу — вже зараз. Квантовий персональний комп'ютер у кімнатній температурі — оптимістично 2035–2040 рр. Повна конвергенція всіх технологій у єдиному пристрої — скоріш за все за горизонтом 2050 року.</div>
-      </div>
-    </div>
-  </div>
-</section>
+<hr class="divider">
 
-<!-- CONCLUSION -->
 <section id="conclusion">
-  <span class="conclusion-icon">🔮</span>
-  <h2>Відповідь — <span>у нас</span></h2>
-  <div class="sep"></div>
-  <p>
-    Комп'ютер майбутнього — це не фантастика і не міф. Його складові вже існують: в університетських лабораторіях, дата-центрах корпорацій, чіпах наших смартфонів. Квантові процесори IBM доступні через хмару. Нейроморфні чіпи Intel вже навчають роботів. ДНК-зберігання перевірено у Microsoft. Фотонні прискорювачі входять у датацентри Google.
-  </p>
-  <p>
-    Водночас масовий квантовий ПК, ДНК-ноутбук чи нейроінтерфейс для кожного — справа не найближчих п'яти років. Це вимагає вирішення фундаментальних фізичних проблем, виховання нових поколінь інженерів, і — не менш важливо — суспільного консенсусу щодо меж і правил нових технологій.
-  </p>
-  <p>
-    <strong style="color:var(--cyan);">Це одночасно і перші кроки, і далекі перспективи.</strong> Залежно від того, яку технологію і який горизонт ми обираємо. Але найголовніше — ці кроки вже робляться. І можливо, саме хтось із вас зробить наступний.
-  </p>
-  <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-top:2rem;">
-    <a href="#hero" class="btn btn-outline">↑ На початок</a>
+  <span style="font-size:3rem;display:block;margin-bottom:1.5rem;">🔮</span>
+  <h2>Висновок:</h2>
+  <p>Комп'ютер майбутнього — це не фантастика. Його складові вже існують: в лабораторіях, дата-центрах, чіпах наших смартфонів.</p>
+  <p>Водночас масовий квантовий ПК — справа не найближчих п'яти років. Це вимагає вирішення фундаментальних фізичних проблем.</p>
+  <div class="conclusion-btns">
+    <a href="#hero" class="btn btn-dim">↑ На початок</a>
   </div>
 </section>
 
-<footer>
-  <p>КОМП'ЮТЕР МАЙБУТНЬОГО · НАВЧАЛЬНИЙ ПРОЄКТ · ПЕРШІ КРОКИ ЧИ ДАЛЕКІ ПЕРСПЕКТИВИ</p>
-</footer>
+<footer>Комп'ютер майбутнього · Навчальний проєкт · Перші кроки чи далекі перспективи</footer>
 
 <script>
-  // FAQ accordion
-  document.querySelectorAll('.faq-question').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item = btn.parentElement;
-      const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-      if (!isOpen) item.classList.add('open');
-    });
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal, .tl-item').forEach((el, i) => {
+  if (el.classList.contains('tl-item')) el.style.transitionDelay = (i % 10 * 0.08) + 's';
+  io.observe(el);
+});
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const open = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!open) item.classList.add('open');
   });
-
-  // Staggered timeline reveal
-  document.querySelectorAll('.tl-item').forEach((el, i) => {
-    el.style.transitionDelay = (i * 0.12) + 's';
-  });
+});
 </script>
 </body>
 </html>
