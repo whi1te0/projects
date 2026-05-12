@@ -223,25 +223,26 @@ footer { text-align: center; padding: 2rem; font-size: 0.75rem; color: var(--ink
 
 <hr class="divider">
 
-<section id="tech">
+<section id="compare" class="bg-white">
   <div class="wrap">
-    <h2 class="section-title reveal">Що змінить <em>все</em></h2>
-    <div class="tech-grid reveal">
-      <div class="tech-card">
-        <div class="tech-num">02 · NEURO</div>
-        <div class="tech-card-top"><div class="tech-icon orange">🧠</div><h3>Нейроморфні чіпи</h3></div>
-        <p>Архітектура, натхненна мозком: мільярди штучних синапсів, мінімальне споживання. Intel Loihi 2 обробляє дані у 1000 разів ефективніше за GPU.</p>
-      </div>
-      <div class="tech-card">
-        <div class="tech-num">04 · PHOTON</div>
-        <div class="tech-card-top"><div class="tech-icon yellow">💡</div><h3>Фотонні процесори</h3></div>
-        <p>Передача даних фотонами: швидкість світла, нульові теплові втрати. Lightmatter і PsiQuantum будують фотонні обчислювачі вже сьогодні.</p>
-      </div>
-      <div class="tech-card">
-        <div class="tech-num">05 · NANO</div>
-        <div class="tech-card-top"><div class="tech-icon blue">🔬</div><h3>Нанотехнології</h3></div>
-        <p>Транзистори розміром у кілька атомів. TSMC та Intel тестують 2нм і 1нм техпроцеси, наближаючись до фізичних меж кремнієвих технологій.</p>
-      </div>
+    <h2 class="section-title reveal">Типи комп'ютерів <em>майбутнього</em></h2>
+    <div class="table-wrap reveal">
+      <table>
+        <thead><tr><th>Параметр</th><th>Класичний ПК</th><th>Квантовий</th><th>Нейроморфний</th><th>Фотонний</th></tr></thead>
+        <tbody>
+          <tr><td>Принцип роботи</td><td>Біти (0/1)</td><td class="tm">Кубіти</td><td class="tg">Як мозок</td><td class="tg">Фотони</td></tr>
+          <tr><td>Швидкість</td><td>До ~5 ГГц</td><td class="tg">Дуже швидкий для складних задач</td><td class="tm">Швидкий для ШІ</td><td class="tg">Швидкість світла</td></tr>
+          <tr><td>Споживання енергії</td><td class="tm">65–350 Вт</td><td class="tb">Дуже велика</td><td class="tg">Дуже мала</td><td class="tg">Мала</td></tr>
+          <tr><td>Стабільність</td><td class="tg">Стабільний</td><td class="tb">Нестабільний</td><td class="tg">Стабільний</td><td class="tm">Складний у запуску</td></tr>
+          <tr><td>Вартість (2025)</td><td class="tg">$300–$5 000</td><td class="tb">$10–$50 млн+</td><td class="tm">$50 000–$200 000</td><td class="tb">Лаб. прототипи</td></tr>
+          <tr><td>Ринкова готовність</td><td class="tg">✔ Зараз</td><td class="tb">✖ 10–20 років</td><td class="tm">~ 3–7 років</td><td class="tb">✖ 10–15 років</td></tr>
+          <tr><td>Найкраще для</td><td>Все</td><td>Складні задачі</td><td>ШІ</td><td>Швидкі обчислення</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="quote-block reveal">
+      <blockquote>Квантові комп'ютери не замінять класичні — вони вирішуватимуть задачі, які класичні машини ніколи не зможуть вирішити за розумний час.</blockquote>
+      <cite>— Джон Преськілл, фізик Каліфорнійського технологічного інституту</cite>
     </div>
   </div>
 </section>
